@@ -87,7 +87,7 @@ public :
     /// \brief Destructor
     ///
     ////////////////////////////////////////////////////////////
-    ~Shader();
+    virtual ~Shader();
 
     ////////////////////////////////////////////////////////////
     /// \brief Load either the vertex or fragment shader from a file
@@ -101,7 +101,7 @@ public :
     /// own shaders.
     ///
     /// \param filename Path of the vertex or fragment shader file to load
-    /// \param type     Type of shader (vertex or fragment)
+    /// \param type     Type of shader (vertex, geometry or fragment)
     ///
     /// \return True if loading succeeded, false if it failed
     ///
@@ -122,6 +122,7 @@ public :
     /// for it before writing your own shaders.
     ///
     /// \param vertexShaderFilename   Path of the vertex shader file to load
+    /// \param geometryShaderFilename Path of the geometry shader file to load
     /// \param fragmentShaderFilename Path of the fragment shader file to load
     ///
     /// \return True if loading succeeded, false if it failed
@@ -142,7 +143,7 @@ public :
     /// it before writing your own shaders.
     ///
     /// \param shader String containing the source code of the shader
-    /// \param type   Type of shader (vertex or fragment)
+    /// \param type   Type of shader (vertex, geometry or fragment)
     ///
     /// \return True if loading succeeded, false if it failed
     ///
@@ -163,6 +164,7 @@ public :
     /// writing your own shaders.
     ///
     /// \param vertexShader   String containing the source code of the vertex shader
+    /// \param geometryShader String containing the source code of the geometry shader
     /// \param fragmentShader String containing the source code of the fragment shader
     ///
     /// \return True if loading succeeded, false if it failed
@@ -183,7 +185,7 @@ public :
     /// before writing your own shaders.
     ///
     /// \param stream Source stream to read from
-    /// \param type   Type of shader (vertex or fragment)
+    /// \param type   Type of shader (vertex, geometry or fragment)
     ///
     /// \return True if loading succeeded, false if it failed
     ///
@@ -204,6 +206,7 @@ public :
     /// it before writing your own shaders.
     ///
     /// \param vertexShaderStream   Source stream to read the vertex shader from
+    /// \param geometryShaderStream Source stream to read the geometry shader from
     /// \param fragmentShaderStream Source stream to read the fragment shader from
     ///
     /// \return True if loading succeeded, false if it failed
@@ -517,6 +520,7 @@ private :
     /// is not created.
     ///
     /// \param vertexShaderCode   Source code of the vertex shader
+    /// \param geometryShaderCode Source code of the geometry shader
     /// \param fragmentShaderCode Source code of the fragment shader
     ///
     /// \return True on success, false if any error happened
@@ -562,11 +566,12 @@ private :
 ///
 /// There are two kinds of shaders:
 /// \li Vertex shaders, that process vertices
+/// \li Geometry shaders, that process primitives
 /// \li Fragment (pixel) shaders, that process pixels
 ///
 /// A sf::Shader can be composed of either a vertex shader
-/// alone, a fragment shader alone, or both combined
-/// (see the variants of the load functions).
+/// alone, a geometry shader alone, a fragment shader alone, or
+/// all three combined (see the variants of the load functions).
 ///
 /// Shaders are written in GLSL, which is a C-like
 /// language dedicated to OpenGL shaders. You'll probably
