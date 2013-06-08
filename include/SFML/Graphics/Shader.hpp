@@ -58,8 +58,9 @@ public :
     ////////////////////////////////////////////////////////////
     enum Type
     {
-        Vertex,  ///< Vertex shader
-        Fragment ///< Fragment (pixel) shader
+        Vertex,		///< Vertex shader
+        Geometry,	///< Geometry shader
+        Fragment	///< Fragment (pixel) shader
     };
 
     ////////////////////////////////////////////////////////////
@@ -126,7 +127,7 @@ public :
     /// \see loadFromMemory, loadFromStream
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromFile(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
+    bool loadFromFile(const std::string& vertexShaderFilename, const std::string& geometryShaderFilename, const std::string& fragmentShaderFilename);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load either the vertex or fragment shader from a source code in memory
@@ -167,7 +168,7 @@ public :
     /// \see loadFromFile, loadFromStream
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromMemory(const std::string& vertexShader, const std::string& fragmentShader);
+    bool loadFromMemory(const std::string& vertexShader, const std::string& geometryShader, const std::string& fragmentShader);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load either the vertex or fragment shader from a custom stream
@@ -208,7 +209,7 @@ public :
     /// \see loadFromFile, loadFromMemory
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromStream(InputStream& vertexShaderStream, InputStream& fragmentShaderStream);
+    bool loadFromStream(InputStream& vertexShaderStream, InputStream& geometryShaderStream, InputStream& fragmentShaderStream);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a float parameter of the shader
@@ -482,6 +483,19 @@ public :
     ////////////////////////////////////////////////////////////
     static bool isAvailable();
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Tell whether or not the system supports geometry shaders
+    ///
+    /// This function should always be called before trying to
+    /// load a geometry shader. If it returns false, then
+    /// any attempt to load a geometry shader as part of 
+    /// sf::Shader will fail.
+    ///
+    /// \return True if the geometry shader is supported, false otherwise
+    ///
+    ////////////////////////////////////////////////////////////
+    static bool isGeometryShaderAvailable();
+
 private :
 
     ////////////////////////////////////////////////////////////
@@ -496,7 +510,7 @@ private :
     /// \return True on success, false if any error happened
     ///
     ////////////////////////////////////////////////////////////
-    bool compile(const char* vertexShaderCode, const char* fragmentShaderCode);
+    bool compile(const char* vertexShaderCode, const char* geometryShaderCode, const char* fragmentShaderCode);
 
     ////////////////////////////////////////////////////////////
     /// \brief Bind all the textures used by the shader
