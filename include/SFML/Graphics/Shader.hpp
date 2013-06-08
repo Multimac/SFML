@@ -108,7 +108,7 @@ public :
     /// \see loadFromMemory, loadFromStream
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromFile(const std::string& filename, Type type);
+    virtual bool loadFromFile(const std::string& filename, Type type);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load both the vertex and fragment shaders from files
@@ -130,7 +130,7 @@ public :
     /// \see loadFromMemory, loadFromStream
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromFile(const std::string& vertexShaderFilename, const std::string& geometryShaderFilename, const std::string& fragmentShaderFilename);
+    virtual bool loadFromFile(const std::string& vertexShaderFilename, const std::string& geometryShaderFilename, const std::string& fragmentShaderFilename);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load either the vertex or fragment shader from a source code in memory
@@ -150,7 +150,7 @@ public :
     /// \see loadFromFile, loadFromStream
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromMemory(const std::string& shader, Type type);
+    virtual bool loadFromMemory(const std::string& shader, Type type);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load both the vertex and fragment shaders from source codes in memory
@@ -172,7 +172,7 @@ public :
     /// \see loadFromFile, loadFromStream
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromMemory(const std::string& vertexShader, const std::string& geometryShader, const std::string& fragmentShader);
+    virtual bool loadFromMemory(const std::string& vertexShader, const std::string& geometryShader, const std::string& fragmentShader);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load either the vertex or fragment shader from a custom stream
@@ -192,7 +192,7 @@ public :
     /// \see loadFromFile, loadFromMemory
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromStream(InputStream& stream, Type type);
+    virtual bool loadFromStream(InputStream& stream, Type type);
 
     ////////////////////////////////////////////////////////////
     /// \brief Load both the vertex and fragment shaders from custom streams
@@ -214,7 +214,7 @@ public :
     /// \see loadFromFile, loadFromMemory
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromStream(InputStream& vertexShaderStream, InputStream& geometryShaderStream, InputStream& fragmentShaderStream);
+    virtual bool loadFromStream(InputStream& vertexShaderStream, InputStream& geometryShaderStream, InputStream& fragmentShaderStream);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a float parameter of the shader
@@ -235,7 +235,7 @@ public :
     /// \param x    Value to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x);
+    virtual void setParameter(const std::string& name, float x);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 2-components vector parameter of the shader
@@ -257,7 +257,7 @@ public :
     /// \param y    Second component of the value to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x, float y);
+    virtual void setParameter(const std::string& name, float x, float y);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 3-components vector parameter of the shader
@@ -280,7 +280,7 @@ public :
     /// \param z    Third component of the value to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x, float y, float z);
+    virtual void setParameter(const std::string& name, float x, float y, float z);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 4-components vector parameter of the shader
@@ -304,7 +304,7 @@ public :
     /// \param w    Fourth component of the value to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, float x, float y, float z, float w);
+    virtual void setParameter(const std::string& name, float x, float y, float z, float w);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 2-components vector parameter of the shader
@@ -325,7 +325,7 @@ public :
     /// \param vector Vector to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Vector2f& vector);
+    virtual void setParameter(const std::string& name, const Vector2f& vector);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a 3-components vector parameter of the shader
@@ -346,7 +346,7 @@ public :
     /// \param vector Vector to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Vector3f& vector);
+    virtual void setParameter(const std::string& name, const Vector3f& vector);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a color parameter of the shader
@@ -373,7 +373,7 @@ public :
     /// \param color Color to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Color& color);
+    virtual void setParameter(const std::string& name, const Color& color);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a matrix parameter of the shader
@@ -396,7 +396,7 @@ public :
     /// \param transform Transform to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const sf::Transform& transform);
+    virtual void setParameter(const std::string& name, const sf::Transform& transform);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a texture parameter of the shader
@@ -428,7 +428,7 @@ public :
     /// \param texture Texture to assign
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, const Texture& texture);
+    virtual void setParameter(const std::string& name, const Texture& texture);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change a texture parameter of the shader
@@ -451,7 +451,7 @@ public :
     /// \param name Name of the texture in the shader
     ///
     ////////////////////////////////////////////////////////////
-    void setParameter(const std::string& name, CurrentTextureType);
+    virtual void setParameter(const std::string& name, CurrentTextureType);
 
     ////////////////////////////////////////////////////////////
     /// \brief Bind a shader for rendering
