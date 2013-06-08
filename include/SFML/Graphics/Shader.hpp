@@ -31,12 +31,14 @@
 #include <SFML/Graphics/Export.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/GLCheck.hpp>
 #include <SFML/Window/GlResource.hpp>
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Vector3.hpp>
 #include <map>
 #include <string>
+#include <vector>
 
 
 namespace sf
@@ -495,6 +497,16 @@ public :
     ///
     ////////////////////////////////////////////////////////////
     static bool isGeometryShaderAvailable();
+
+protected :
+    // Retrieve the maximum number of texture units available
+    GLint getMaxTextureUnits();
+
+    // Read the contents of a file into an array of char
+    bool getFileContents(const std::string& filename, std::vector<char>& buffer);
+
+    // Read the contents of a stream into an array of char
+    bool getStreamContents(sf::InputStream& stream, std::vector<char>& buffer);
 
 private :
 

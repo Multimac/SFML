@@ -28,61 +28,13 @@
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/GLCheck.hpp>
 #include <SFML/System/InputStream.hpp>
 #include <SFML/System/Err.hpp>
 #include <fstream>
-#include <vector>
 
 
 namespace
 {
-    // Retrieve the maximum number of texture units available
-    GLint getMaxTextureUnits()
-    {
-        GLint maxUnits;
-        glCheck(glGetIntegerv(GL_MAX_TEXTURE_COORDS_ARB, &maxUnits));
-        return maxUnits;
-    }
-
-    // Read the contents of a file into an array of char
-    bool getFileContents(const std::string& filename, std::vector<char>& buffer)
-    {
-        std::ifstream file(filename.c_str(), std::ios_base::binary);
-        if (file)
-        {
-            file.seekg(0, std::ios_base::end);
-            std::streamsize size = file.tellg();
-            if (size > 0)
-            {
-                file.seekg(0, std::ios_base::beg);
-                buffer.resize(static_cast<std::size_t>(size));
-                file.read(&buffer[0], size);
-            }
-            buffer.push_back('\0');
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // Read the contents of a stream into an array of char
-    bool getStreamContents(sf::InputStream& stream, std::vector<char>& buffer)
-    {
-        bool success = true;
-        sf::Int64 size = stream.getSize();
-        if (size > 0)
-        {
-            buffer.resize(static_cast<std::size_t>(size));
-            stream.seek(0);
-            sf::Int64 read = stream.read(&buffer[0], size);
-            success = (read == size);
-        }
-        buffer.push_back('\0');
-        return success;
-    }
 }
 
 
@@ -500,6 +452,54 @@ bool Shader::isGeometryShaderAvailable()
 
     return isAvailable()					 &&
            GL_EXT_geometry_shader4;
+}
+
+
+// Retrieve the maximum number of texture units available
+GLint Shader::getMaxTextureUnits()
+{
+    GLint maxUnits;
+    glCheck(glGetIntegerv(GL_MAX_TEXTURE_COORDS_ARB, &maxUnits));
+    return maxUnits;
+}
+
+// Read the contents of a file into an array of char
+bool Shader::getFileContents(const std::string& filename, std::vector<char>& buffer)
+{
+    std::ifstream file(filename.c_str(), std::ios_base::binary);
+    if (file)
+    {
+        file.seekg(0, std::ios_base::end);
+        std::streamsize size = file.tellg();
+        if (size > 0)
+        {
+            file.seekg(0, std::ios_base::beg);
+            buffer.resize(static_cast<std::size_t>(size));
+            file.read(&buffer[0], size);
+        }
+        buffer.push_back('\0');
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Read the contents of a stream into an array of char
+bool Shader::getStreamContents(sf::InputStream& stream, std::vector<char>& buffer)
+{
+    bool success = true;
+    sf::Int64 size = stream.getSize();
+    if (size > 0)
+    {
+        buffer.resize(static_cast<std::size_t>(size));
+        stream.seek(0);
+        sf::Int64 read = stream.read(&buffer[0], size);
+        success = (read == size);
+    }
+    buffer.push_back('\0');
+    return success;
 }
 
 
