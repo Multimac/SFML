@@ -99,6 +99,31 @@ public :
     ///
     ////////////////////////////////////////////////////////////
     const View& getView() const;
+    
+    ////////////////////////////////////////////////////////////
+    /// \brief Change the current active shader
+    ///
+    /// As of OpenGL 3.2, we are required to use shaders for all
+    /// rendering. This function allows you to swap out the
+    /// currently active shader between draw calls in order
+    /// to achieve a different visual appearance
+    ///
+    /// \param shader New shader to use
+    ///
+    /// \see getShader
+    ///
+    ////////////////////////////////////////////////////////////
+    void setShader(Shader* shader);
+    
+    ////////////////////////////////////////////////////////////
+    /// \brief Get the shader currently in use in the render target
+    ///
+    /// \return The shader object that is currently used
+    ///
+    /// \see setShader
+    ///
+    ////////////////////////////////////////////////////////////
+    const Shader* getShader() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the default view of the render target
@@ -338,7 +363,7 @@ protected :
     /// target is created and ready for drawing.
     ///
     ////////////////////////////////////////////////////////////
-    void initialize();
+    void initialize(Shader* shader);
 
 private:
 
@@ -373,14 +398,6 @@ private:
     void applyTexture(const Texture* texture);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Apply a new shader
-    ///
-    /// \param shader Shader to apply
-    ///
-    ////////////////////////////////////////////////////////////
-    void applyShader(const Shader* shader);
-
-    ////////////////////////////////////////////////////////////
     /// \brief Activate the target for rendering
     ///
     /// This function must be implemented by derived classes to make
@@ -413,9 +430,11 @@ private:
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    View        m_defaultView; ///< Default view
-    View        m_view;        ///< Current view
-    StatesCache m_cache;       ///< Render states cache
+    View        m_defaultView;  ///< Default view
+    View        m_view;         ///< Current view
+    StatesCache m_cache;        ///< Render states cache
+    
+    Shader*     m_shader;       ///< Current shader
 };
 
 } // namespace sf

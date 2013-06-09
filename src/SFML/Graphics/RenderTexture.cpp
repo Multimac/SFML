@@ -49,7 +49,7 @@ RenderTexture::~RenderTexture()
 
 
 ////////////////////////////////////////////////////////////
-bool RenderTexture::create(unsigned int width, unsigned int height, bool depthBuffer)
+bool RenderTexture::create(unsigned int width, unsigned int height, sf::Shader* shader, bool depthBuffer)
 {
     // Create the texture
     if (!m_texture.create(width, height))
@@ -79,7 +79,7 @@ bool RenderTexture::create(unsigned int width, unsigned int height, bool depthBu
         return false;
 
     // We can now initialize the render target part
-    RenderTarget::initialize();
+    RenderTarget::initialize(shader);
 
     return true;
 }

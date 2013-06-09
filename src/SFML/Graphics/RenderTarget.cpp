@@ -40,7 +40,8 @@ namespace sf
 RenderTarget::RenderTarget() :
 m_defaultView(),
 m_view       (),
-m_cache      ()
+m_cache      (),
+m_shader     (NULL)
 {
     m_cache.glStatesSet = false;
 }
@@ -75,6 +76,20 @@ void RenderTarget::setView(const View& view)
 const View& RenderTarget::getView() const
 {
     return m_view;
+}
+
+
+////////////////////////////////////////////////////////////
+void RenderTarget::setShader(Shader* shader)
+{
+    m_shader = shader;
+}
+
+
+////////////////////////////////////////////////////////////
+const Shader* RenderTarget::getShader() const
+{
+    return m_shader;
 }
 
 
@@ -155,8 +170,12 @@ void RenderTarget::draw(const Vertex* vertices, unsigned int vertexCount,
     if (!vertices || (vertexCount == 0))
         return;
 
-    if (activate(true))
+    // Make sure we are active and have a shader to draw with
+    if (activate(true) && m_shader)
     {
+        // TODO
+        // Set world view projection matrix in shader
+
         // First set the persistent OpenGL states if it's the very first call
         if (!m_cache.glStatesSet)
             resetGLStates();
@@ -288,18 +307,11 @@ void RenderTarget::resetGLStates()
         glCheck(glDisable(GL_ALPHA_TEST));
         glCheck(glEnable(GL_TEXTURE_2D));
         glCheck(glEnable(GL_BLEND));
-        glCheck(glMatrixMode(GL_MODELVIEW));
-        glCheck(glEnableClientState(GL_VERTEX_ARRAY));
-        glCheck(glEnableClientState(GL_COLOR_ARRAY));
-        glCheck(glEnableClientState(GL_TEXTURE_COORD_ARRAY));
         m_cache.glStatesSet = true;
 
         // Apply the default SFML states
         applyBlendMode(BlendAlpha);
-        applyTransform(Transform::Identity);
         applyTexture(NULL);
-        if (Shader::isAvailable())
-            applyShader(NULL);
         m_cache.useVertexCache = false;
 
         // Set the default view
@@ -309,11 +321,13 @@ void RenderTarget::resetGLStates()
 
 
 ////////////////////////////////////////////////////////////
-void RenderTarget::initialize()
+void RenderTarget::initialize(sf::Shader* shader)
 {
     // Setup the default and current views
     m_defaultView.reset(FloatRect(0, 0, static_cast<float>(getSize().x), static_cast<float>(getSize().y)));
     m_view = m_defaultView;
+
+    m_shader = shader;
 
     // Set GL states only on first draw, so that we don't pollute user's states
     m_cache.glStatesSet = false;
@@ -327,14 +341,7 @@ void RenderTarget::applyCurrentView()
     IntRect viewport = getViewport(m_view);
     int top = getSize().y - (viewport.top + viewport.height);
     glCheck(glViewport(viewport.left, top, viewport.width, viewport.height));
-
-    // Set the projection matrix
-    glCheck(glMatrixMode(GL_PROJECTION));
-    glCheck(glLoadMatrixf(m_view.getTransform().getMatrix()));
-
-    // Go back to model-view mode
-    glCheck(glMatrixMode(GL_MODELVIEW));
-
+    
     m_cache.viewChanged = false;
 }
 
@@ -376,31 +383,6 @@ void RenderTarget::applyBlendMode(BlendMode mode)
     }
 
     m_cache.lastBlendMode = mode;
-}
-
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyTransform(const Transform& transform)
-{
-    // No need to call glMatrixMode(GL_MODELVIEW), it is always the
-    // current mode (for optimization purpose, since it's the most used)
-    glCheck(glLoadMatrixf(transform.getMatrix()));
-}
-
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyTexture(const Texture* texture)
-{
-    Texture::bind(texture, Texture::Pixels);
-
-    m_cache.lastTextureId = texture ? texture->m_cacheId : 0;
-}
-
-
-////////////////////////////////////////////////////////////
-void RenderTarget::applyShader(const Shader* shader)
-{
-    Shader::bind(shader);
 }
 
 } // namespace sf

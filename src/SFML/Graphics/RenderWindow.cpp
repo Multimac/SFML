@@ -39,10 +39,10 @@ RenderWindow::RenderWindow()
 
 
 ////////////////////////////////////////////////////////////
-RenderWindow::RenderWindow(VideoMode mode, const String& title, Uint32 style, const ContextSettings& settings)
+RenderWindow::RenderWindow(VideoMode mode, const String& title, Shader* shader, Uint32 style, const ContextSettings& settings)
 {
     // Don't call the base class constructor because it contains virtual function calls
-    create(mode, title, style, settings);
+    create(mode, title, shader, style, settings);
 }
 
 
@@ -50,7 +50,7 @@ RenderWindow::RenderWindow(VideoMode mode, const String& title, Uint32 style, co
 RenderWindow::RenderWindow(WindowHandle handle, const ContextSettings& settings)
 {
     // Don't call the base class constructor because it contains virtual function calls
-    create(handle, settings);
+    Window::create(handle, settings);
 }
 
 
@@ -58,6 +58,13 @@ RenderWindow::RenderWindow(WindowHandle handle, const ContextSettings& settings)
 RenderWindow::~RenderWindow()
 {
     // Nothing to do
+}
+
+
+void RenderWindow::create(VideoMode mode, const String& title, Shader* shader, Uint32 style, const ContextSettings& settings)
+{
+    Window::create(mode, title, style, settings);
+    setShader(shader);
 }
 
 
@@ -103,7 +110,7 @@ Image RenderWindow::capture() const
 void RenderWindow::onCreate()
 {
     // Just initialize the render target part
-    RenderTarget::initialize();
+    RenderTarget::initialize(NULL);
 }
 
 

@@ -73,7 +73,7 @@ public :
     /// \param settings Additional settings for the underlying OpenGL context
     ///
     ////////////////////////////////////////////////////////////
-    RenderWindow(VideoMode mode, const String& title, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings());
+    RenderWindow(VideoMode mode, const String& title, Shader* shader, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings());
 
     ////////////////////////////////////////////////////////////
     /// \brief Construct the window from an existing control
@@ -99,6 +99,22 @@ public :
     ///
     ////////////////////////////////////////////////////////////
     virtual ~RenderWindow();
+    
+    ////////////////////////////////////////////////////////////
+    /// \brief Create (or recreate) the window
+    ///
+    /// If the window was already created, it closes it first.
+    /// If \a style contains Style::Fullscreen, then \a mode
+    /// must be a valid video mode.
+    ///
+    /// \param mode     Video mode to use (defines the width, height and depth of the rendering area of the window)
+    /// \param title    Title of the window
+    /// \param style    Window style
+    /// \param settings Additional settings for the underlying OpenGL context
+    /// \param shader   The underlying shader to use when rendering any geometry
+    ///
+    ////////////////////////////////////////////////////////////
+    void create(VideoMode mode, const String& title, Shader* shader, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings());
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the size of the rendering region of the window
