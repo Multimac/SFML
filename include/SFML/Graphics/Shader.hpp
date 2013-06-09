@@ -500,6 +500,11 @@ public :
     ////////////////////////////////////////////////////////////
     static bool isGeometryShaderAvailable();
 
+public :
+
+    virtual void ApplyProjectionMatrix(const float* matrix) = 0;
+
+
 protected :
 
     // Retrieve the maximum number of texture units available
@@ -527,15 +532,6 @@ protected :
     bool compile(const char* vertexShaderCode, const char* geometryShaderCode, const char* fragmentShaderCode);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Bind all the textures used by the shader
-    ///
-    /// This function each texture to a different unit, and
-    /// updates the corresponding variables in the shader accordingly.
-    ///
-    ////////////////////////////////////////////////////////////
-    void bindTextures() const;
-
-    ////////////////////////////////////////////////////////////
     // Types
     ////////////////////////////////////////////////////////////
     typedef std::map<int, const Texture*> TextureTable;
@@ -546,6 +542,13 @@ protected :
     unsigned int m_shaderProgram;  ///< OpenGL identifier for the program
     int          m_currentTexture; ///< Location of the current texture in the shader
     TextureTable m_textures;       ///< Texture variables in the shader, mapped to their location
+
+    int          m_positionLoc;    ///< Position attribute variable location in shader
+    int          m_colourLoc;      ///< Colour attribute variable location in shader
+    int          m_texCoordLoc;    ///< Texture coordinate attribute variable location in shader
+
+    int          m_wvpMatrixLoc;   ///< World view projection matrix variable location in shader
+    int          m_textureLoc;     ///< Texture variable location in shader
 };
 
 } // namespace sf

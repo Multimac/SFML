@@ -32,6 +32,7 @@
 #include <SFML/System/InputStream.hpp>
 #include <SFML/System/Err.hpp>
 #include <fstream>
+#include <sstream>
 
 
 namespace sf
@@ -619,25 +620,9 @@ bool Shader::compile(const char* vertexShaderCode, const char* geometryShaderCod
         return false;
     }
 
+
+
     return true;
-}
-
-
-////////////////////////////////////////////////////////////
-void Shader::bindTextures() const
-{
-    TextureTable::const_iterator it = m_textures.begin();
-    for (std::size_t i = 0; i < m_textures.size(); ++i)
-    {
-        GLint index = static_cast<GLsizei>(i + 1);
-        glCheck(glUniform1iARB(it->first, index));
-        glCheck(glActiveTextureARB(GL_TEXTURE0_ARB + index));
-        Texture::bind(it->second);
-        ++it;
-    }
-
-    // Make sure that the texture unit which is left active is the number 0
-    glCheck(glActiveTextureARB(GL_TEXTURE0_ARB));
 }
 
 } // namespace sf
