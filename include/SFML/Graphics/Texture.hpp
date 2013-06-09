@@ -421,39 +421,6 @@ public :
     Texture& operator =(const Texture& right);
 
     ////////////////////////////////////////////////////////////
-    /// \brief Bind a texture for rendering
-    ///
-    /// This function is not part of the graphics API, it mustn't be
-    /// used when drawing SFML entities. It must be used only if you
-    /// mix sf::Texture with OpenGL code.
-    ///
-    /// \code
-    /// sf::Texture t1, t2;
-    /// ...
-    /// sf::Texture::bind(&t1);
-    /// // draw OpenGL stuff that use t1...
-    /// sf::Texture::bind(&t2);
-    /// // draw OpenGL stuff that use t2...
-    /// sf::Texture::bind(NULL);
-    /// // draw OpenGL stuff that use no texture...
-    /// \endcode
-    ///
-    /// The \a coordinateType argument controls how texture
-    /// coordinates will be interpreted. If Normalized (the default), they
-    /// must be in range [0 .. 1], which is the default way of handling
-    /// texture coordinates with OpenGL. If Pixels, they must be given
-    /// in pixels (range [0 .. size]). This mode is used internally by
-    /// the graphics classes of SFML, it makes the definition of texture
-    /// coordinates more intuitive for the high-level API, users don't need
-    /// to compute normalized values.
-    ///
-    /// \param texture Pointer to the texture to bind, can be null to use no texture
-    /// \param coordinateType Type of texture coordinates to use
-    ///
-    ////////////////////////////////////////////////////////////
-    static void bind(const Texture* texture, CoordinateType coordinateType = Normalized);
-
-    ////////////////////////////////////////////////////////////
     /// \brief Get the maximum texture size allowed
     ///
     /// This maximum size is defined by the graphics driver.
